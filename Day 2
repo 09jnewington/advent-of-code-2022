@@ -1,0 +1,81 @@
+file = open('input2.txt')
+
+
+
+
+def gamescore(f):
+    gamescore = 0
+    for line in f:
+        if (line[0] == 'A' and line[2] == 'Y') or (line[0] == 'B' and line[2] == 'Z') or (line[0] == 'C'and line[2] == 'X'):
+            linescore = 6
+        elif (line[0] == 'A' and line[2] == 'X') or (line[0] == 'B' and line[2] == 'Y') or (line[0] == 'C'and line[2] == 'Z'):
+            linescore = 3
+        else:
+            linescore = 0
+        gamescore = gamescore + linescore
+    return(gamescore)
+
+
+def choicescore(f):
+    cscoresum = 0
+    for line in f:
+        cscore=0
+        if line[2] == 'X':
+            cscore = 1
+        elif line[2] == 'Y':
+            cscore = 2
+        elif line[2] == 'Z':
+            cscore = 3
+        cscoresum = cscoresum + cscore
+    return(cscoresum)
+
+
+file.seek(0)
+
+x = gamescore(file)
+print(f"gamescore is {x}")
+file.seek(0)
+y = choicescore(file)
+print(f"choicescore is {y}")
+print(x+y)
+
+
+#part 2
+print("part 2:")
+
+
+def winscore(f):
+    cscoresum = 0
+    for line in f:
+        cscore=0
+        if line[2] == 'X':
+            cscore = 0
+            if line[0] == 'A':
+                otherscore = 3
+            elif line[0] == 'B':
+                otherscore = 1
+            elif line[0] == 'C':
+                otherscore = 2
+        elif line[2] == 'Y':
+            cscore = 3
+            if line[0] == 'A':
+                otherscore = 1
+            elif line[0] == 'B':
+                otherscore = 2
+            elif line[0] == 'C':
+                otherscore = 3
+        elif line[2] == 'Z':
+            cscore = 6
+            if line[0] == 'A':
+                otherscore = 2
+            elif line[0] == 'B':
+                otherscore = 3
+            elif line[0] == 'C':
+                otherscore = 1
+        cscoresum = cscoresum + cscore + otherscore
+    return(cscoresum)
+
+
+file.seek(0)
+n = winscore(file)
+print(f"winscore is {n}")

@@ -1,0 +1,38 @@
+f = open('input.txt', mode = 'r')
+
+lines = []
+
+for line in f:
+    lines.append(line)
+
+def totalcalories(list):
+    elf_dict = {}
+    totalcals = 0
+    cal_list = []
+    elfno = 0
+    for i in list:
+        if i != '\n':
+            totalcals = totalcals + int(i)
+        else:
+            elfno = elfno + 1
+            #print(f"elf {elfno} has {str(totalcals)} calories")
+            elf_dict[elfno] = totalcals
+            cal_list = cal_list + [totalcals]
+            totalcals = 0
+    highest_key = max(elf_dict, key=elf_dict.get)
+    print(highest_key, elf_dict[highest_key])
+
+    return(cal_list)
+  
+
+
+def top3sum(list):
+    newlist = totalcalories(list)
+    newlist.sort()
+    top3 = newlist[248:]
+    print(sum(top3))
+    #print(x)
+
+top3sum(lines)
+
+

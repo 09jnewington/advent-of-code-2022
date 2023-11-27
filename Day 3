@@ -1,0 +1,48 @@
+file = open('input3.txt')
+total = 0
+
+for line in file:
+    first_half = line[:len(line)//2]
+    second_half = line[len(line)//2:]
+    letter = (set(first_half).intersection(second_half))
+    letter = ', '.join(letter)
+    if letter.islower():
+        #print(ord(letter)-96)
+        total = total + ord(letter)-96
+    else:
+        #print(f"upper case: {letter}, {(ord(letter))-38}")
+        total = total + ord(letter)-38
+
+file.seek(0)
+     
+#print(total)
+def findletter(file):
+    file.seek(0)
+    m = 0
+    threelines = []
+    p = 0
+    for line in file:
+        if m < 3:
+            threelines.append(line.strip())
+            m = m+1
+        if m == 3:
+            set1 = set(threelines[0]).intersection(threelines[1])
+            letter = set(set1).intersection(threelines[2])
+            print(letter)
+            letter = ''.join(letter)
+            print(threelines)
+            print("letter is: ")
+            if letter[0].islower():
+                    #print(ord(letter)-96)
+                    p = p + (ord(letter[0])-96)
+                    print((ord(letter[0])-96))
+
+            if letter[0].isupper():
+                    #print(f"upper case: {letter}, {(ord(letter))-38}")
+                    p = p + (ord(letter[0])-38)
+                    print((ord(letter[0])-38))
+            m = 0
+            threelines = []
+    print(p)
+
+findletter(file)

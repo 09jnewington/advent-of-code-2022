@@ -1,0 +1,53 @@
+file = open("input4.txt")
+
+
+def subsets(f):
+    total = 0
+    for line in f:
+        line = line.strip()
+        line = line.split(',')
+        range1 = line[0].split('-')
+        range2 = line[1].split('-')
+        elf1range = range(int(range1[0]),int(range1[1])+1)
+        elf2range = range(int(range2[0]),int(range2[1])+1)
+        elf1list = []
+        elf2list = []
+        for i in elf1range:
+            elf1list = elf1list + [i]
+        for i in elf2range:
+            elf2list = elf2list + [i]
+        print(line)
+        print(f"elf 1 list {elf1list}")
+        print(f"elf 2 list {elf2list}")
+        if (set(elf1list).issubset(elf2list)):
+            total = total +1
+            print('true')
+        elif (set(elf2list).issubset(elf1list)):
+            total = total + 1
+            print('true')
+        else:
+            print('false')
+    return(total)
+
+
+file.seek(0)
+
+
+def overlap(f):
+    total = 0
+    for line in f:
+        line = line.strip()
+        line = line.split(',')
+        range1 = line[0].split('-')
+        range2 = line[1].split('-')
+        elf1range = set(range(int(range1[0]),int(range1[1])+1))
+        elf2range = set(range(int(range2[0]),int(range2[1])+1))
+        if (elf1range).intersection(elf2range):
+            total = total + 1
+    print(total)
+    return(total)
+
+overlap(file)
+
+
+

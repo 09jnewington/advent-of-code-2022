@@ -1,0 +1,134 @@
+import numpy as np
+
+file = "input5.txt"
+
+def listmaker(f):
+    f.seek(0)
+    actionlistlist = []
+    for i, line in enumerate(f):
+        if i > 9:
+            actionlist = []
+            actionline = (line.replace('move ','').replace('from ','').replace('to ','').strip())
+            actionlist = actionline.split(' ')
+            actionlist = [eval(i) for i in actionlist]
+            actionlistlist += [actionlist]
+    print("actionlistlist: ")
+    print(actionlistlist)
+    return(actionlistlist)
+
+
+def movecrate(file):
+    with open(file) as f:
+        f.seek(0)
+        matrix = []
+        for i in range(8):
+            row = []
+            line = f.readline()
+            row.extend([line[1],line[5],line[9],line[13],line[17],line[21],line[25],line[29], line[33]])
+            matrix.append(row)
+        actionlistlist = listmaker(f)
+    ar = np.array(matrix)
+    print("starting array")
+    print(ar)
+    for idx, list in enumerate(actionlistlist):
+        print(idx, list)
+        for i in range(list[0]):
+            emptyrow = True
+            ## Find crate and remove it
+            for idx, value in enumerate(ar[:,list[1]-1]):
+                if value != ' ':
+                    crate = value
+                    ar[idx,list[1]-1] = ' '
+                    print(f"crate is {crate}")
+                    emptyrow = False
+                    break
+            if not emptyrow:
+                ## Place crate where it belongs
+                if not ' ' in (ar[:,list[2]-1]):
+                    print("top space is not empty, creating new row")
+                    newrow = [' ' for i in range(9)]
+                    ar = np.insert(ar, 0, newrow, axis = 0)
+
+                for idx, value in enumerate(ar[:,list[2]-1]):
+                    if value[0] != ' ':
+                        print(value[0])
+                        ar[idx-1,list[2]-1] = crate
+                        break
+                    elif idx == (len(ar) -1):
+                        ar[idx,list[2]-1] = crate
+                        break
+
+                        
+            
+            else:
+                print("No crate to move, MOVING ON")
+                break
+
+            rows_to_delete = []
+            for i, row in enumerate(ar):
+                if np.array_equal(row, np.array([' ']*9)):
+                    rows_to_delete.append(i)
+            ar = np.delete(ar, rows_to_delete, axis=0)
+
+            print(ar)
+#movecrate(file)
+
+
+def movecrate2(file):
+    with open(file) as f:
+        f.seek(0)
+        matrix = []
+        for i in range(8):
+            row = []
+            line = f.readline()
+            row.extend([line[1],line[5],line[9],line[13],line[17],line[21],line[25],line[29], line[33]])
+            matrix.append(row)
+        actionlistlist = listmaker(f)
+    ar = np.array(matrix)
+    print("starting array")
+    print(ar)
+    for idx, list in enumerate(actionlistlist):
+        print(idx, list)
+        #find list[0] many crates
+        cratestomove = []
+        emptyrow = True
+        for i in range(list[0]):
+            for idx, value in enumerate(ar[:,list[1]-1]):
+                if value != ' ':
+                    crate = value
+                    ar[idx,list[1]-1] = ' '
+                    print(f"crate is {crate}")
+                    cratestomove.append(crate)
+                    emptyrow = False
+                    break
+        ##now add those crates list to new row
+        if not emptyrow:
+            for crate in reversed(cratestomove):
+                ## Place crate where it belongs
+                if not ' ' in (ar[:,list[2]-1]):
+                    print("top space is not empty, creating new row")
+                    newrow = [' ' for i in range(9)]
+                    ar = np.insert(ar, 0, newrow, axis = 0)
+
+                for idx, value in enumerate(ar[:,list[2]-1]):
+                    if value[0] != ' ':
+                        print(value[0])
+                        ar[idx-1,list[2]-1] = crate
+                        break
+                    elif idx == (len(ar) -1):
+                        ar[idx,list[2]-1] = crate
+                        break
+        else:
+                print("No crate to move, MOVING ON")
+                break
+
+        rows_to_delete = []
+        for i, row in enumerate(ar):
+            if np.array_equal(row, np.array([' ']*9)):
+                rows_to_delete.append(i)
+        ar = np.delete(ar, rows_to_delete, axis=0)
+
+        print(ar)
+
+movecrate2(file)
+

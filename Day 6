@@ -1,0 +1,20 @@
+f = open("AoC2022/input6.txt")
+
+def check(f):
+    for i in f:
+        for idx, j in enumerate(i):
+            if idx > 4:
+                if i[idx-1] != i[idx-2] and i[idx-1] != i[idx-3] and i[idx-1] != i[idx-4] and i[idx-2] != i[idx-3] and i[idx-2] != i[idx-4] and i[idx-3] != i[idx-4]:
+                    print(idx, i[idx-1], i[idx-2], i[idx-3], i[idx-4])
+                    break
+
+def check2(f):
+    for i in f:
+        for idx, j in enumerate(i):
+            if idx > 14:
+                checklist = []
+                checklist.extend([i[idx-1], i[idx-2], i[idx-3], i[idx-4], i[idx-5], i[idx-6], i[idx-7], i[idx-8], i[idx-9], i[idx-10], i[idx-11], i[idx-12], i[idx-13], i[idx-14]])
+                if len(checklist) == len(set(checklist)):
+                    print(idx, checklist)
+                    break
+check2(f)
